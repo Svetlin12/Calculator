@@ -4,6 +4,12 @@ import java.awt.*;
 public class CalculatorUI extends JFrame {
     CalculatorEventListener listener = new CalculatorEventListener(this);
 
+    // colors for the buttons
+    Color digitsBackgroundColor = Color.darkGray;
+    Color operationsBackgroundColor = new Color(247, 219, 74);
+    Color digitsForegroundColor = Color.white;
+    Color operationsForegroundColor = Color.black;
+
     // row where the numbers will show up
     JPanel row1 = new JPanel();
     JTextField text = new JTextField(null);
@@ -13,26 +19,26 @@ public class CalculatorUI extends JFrame {
     JPanel digitsPanel = new JPanel();
     JPanel mainFunctions = new JPanel();
     JPanel otherFunctions = new JPanel();
-    JButton sum = new JButton("+");
-    JButton subtract = new JButton("-");
-    JButton divide = new JButton("/");
-    JButton multiply = new JButton("*");
-    JButton equals = new JButton("=");
-    JButton one = new JButton("1");
-    JButton two = new JButton("2");
-    JButton three = new JButton("3");
-    JButton four = new JButton("4");
-    JButton five = new JButton("5");
-    JButton six = new JButton("6");
-    JButton seven = new JButton("7");
-    JButton eight = new JButton("8");
-    JButton nine = new JButton("9");
-    JButton zero = new JButton("0");
-    JButton decimalPoint = new JButton(".");
-    JButton toSecondPower = new JButton("x2");
-    JButton toThirdPower = new JButton("x3");
-    JButton clear = new JButton("AC");
-    JButton delete = new JButton("Del");
+    AnimatedButton sum = new AnimatedButton("+", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton subtract = new AnimatedButton("-", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton divide = new AnimatedButton("/", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton multiply = new AnimatedButton("*", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton equals = new AnimatedButton("=", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton one = new AnimatedButton("1", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton two = new AnimatedButton("2", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton three = new AnimatedButton("3", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton four = new AnimatedButton("4", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton five = new AnimatedButton("5", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton six = new AnimatedButton("6", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton seven = new AnimatedButton("7", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton eight = new AnimatedButton("8", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton nine = new AnimatedButton("9", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton zero = new AnimatedButton("0", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton decimalPoint = new AnimatedButton(".", digitsBackgroundColor, digitsForegroundColor);
+    AnimatedButton toSecondPower = new AnimatedButton("x2", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton toThirdPower = new AnimatedButton("x3", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton clear = new AnimatedButton("AC", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton delete = new AnimatedButton("Del", operationsBackgroundColor, operationsForegroundColor);
 
     public CalculatorUI() {
         super("Calculator");
@@ -59,56 +65,49 @@ public class CalculatorUI extends JFrame {
         BorderLayout buttonsBorder = new BorderLayout();
         buttonRow.setLayout(buttonsBorder);
 
-        Color digitsBackgroundColor = Color.darkGray;
-        Color digitsTextColor = Color.white;
-        Color operationsBackgroundColor = new Color(247, 219, 74);
-
         // digits
         GridLayout digitsGrid = new GridLayout(4, 3);
         digitsPanel.setLayout(digitsGrid);
 
-        setButton(one, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(two, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(three, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(four, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(five, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(six, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(seven, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(eight, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(nine, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(zero, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(decimalPoint, digitsBackgroundColor, digitsTextColor, digitsPanel);
-        setButton(equals, operationsBackgroundColor, null, digitsPanel);
+        setButton(one, digitsPanel);
+        setButton(two, digitsPanel);
+        setButton(three, digitsPanel);
+        setButton(four, digitsPanel);
+        setButton(five, digitsPanel);
+        setButton(six, digitsPanel);
+        setButton(seven, digitsPanel);
+        setButton(eight, digitsPanel);
+        setButton(nine, digitsPanel);
+        setButton(zero, digitsPanel);
+        setButton(decimalPoint, digitsPanel);
+        setButton(equals, digitsPanel);
         buttonRow.add(digitsPanel, BorderLayout.CENTER);
 
         // main operations
         GridLayout mainOperationsGrid = new GridLayout(4, 1);
         mainFunctions.setLayout(mainOperationsGrid);
-        setButton(sum, operationsBackgroundColor, null, mainFunctions);
+        setButton(sum, mainFunctions);
         sum.setPreferredSize(new Dimension(60, 30));
-        setButton(subtract, operationsBackgroundColor, null, mainFunctions);
-        setButton(divide, operationsBackgroundColor, null, mainFunctions);
-        setButton(multiply, operationsBackgroundColor, null, mainFunctions);
+        setButton(subtract, mainFunctions);
+        setButton(divide, mainFunctions);
+        setButton(multiply, mainFunctions);
         buttonRow.add(mainFunctions, BorderLayout.EAST);
 
         // other functions
         GridLayout otherOperationsGrid = new GridLayout(4, 1);
         otherFunctions.setLayout(otherOperationsGrid);
-        setButton(clear, operationsBackgroundColor, null, otherFunctions);
+        setButton(clear, otherFunctions);
         clear.setPreferredSize(new Dimension(60, 30));
-        setButton(delete, operationsBackgroundColor, null, otherFunctions);
-        setButton(toSecondPower, operationsBackgroundColor, null, otherFunctions);
-        setButton(toThirdPower, operationsBackgroundColor, null, otherFunctions);
+        setButton(delete, otherFunctions);
+        setButton(toSecondPower, otherFunctions);
+        setButton(toThirdPower, otherFunctions);
         buttonRow.add(otherFunctions, BorderLayout.WEST);
         add(buttonRow);
 
         setVisible(true);
     }
 
-    private void setButton(JButton button, Color background, Color foreground, JPanel panel) {
-        button.setBackground(background);
-        button.setForeground(foreground);
-        button.setBorder(BorderFactory.createRaisedBevelBorder());
+    private void setButton(JButton button, JPanel panel) {
         button.addActionListener(listener);
         button.addKeyListener(listener);
         panel.add(button);
