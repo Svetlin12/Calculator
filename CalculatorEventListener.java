@@ -1,7 +1,5 @@
 import java.awt.event.*;
 
-// TODO: support for negative numbers
-
 public class CalculatorEventListener implements ActionListener, KeyListener {
     private final CalculatorUI ui;
     private double firstOperand = 0, secondOperand = 0;
@@ -57,17 +55,7 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
                 return;
             }
 
-            if (numCompletedOperands == 0) {
-                firstOperand = Double.parseDouble(currentText);
-                numCompletedOperands++;
-                isOperationActivated = true;
-            }
-            else if (numCompletedOperands == 1) {
-                secondOperand = Double.parseDouble(currentText);
-                evaluateExpression();
-                firstOperand = Double.parseDouble(ui.text.getText());
-                isOperationActivated = true;
-            }
+            setOperands(currentText);
 
             changeOperation(caller);
         }
@@ -129,6 +117,19 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
     private boolean isDigit(char keyValue) {
         return keyValue == '0' || keyValue == '1' || keyValue == '2' || keyValue == '3' || keyValue == '4' ||
                 keyValue == '5' || keyValue == '6' || keyValue == '7' || keyValue == '8' || keyValue == '9';
+    }
+
+    private void setOperands(String currentText) {
+        if (numCompletedOperands == 0) {
+            firstOperand = Double.parseDouble(currentText);
+            numCompletedOperands++;
+            isOperationActivated = true;
+        } else if (numCompletedOperands == 1) {
+            secondOperand = Double.parseDouble(currentText);
+            evaluateExpression();
+            firstOperand = Double.parseDouble(ui.text.getText());
+            isOperationActivated = true;
+        }
     }
 
     private void evaluateExpression() {
@@ -194,16 +195,7 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
                 return;
             }
 
-            if (numCompletedOperands == 0) {
-                firstOperand = Double.parseDouble(currentText);
-                numCompletedOperands++;
-                isOperationActivated = true;
-            } else if (numCompletedOperands == 1) {
-                secondOperand = Double.parseDouble(currentText);
-                evaluateExpression();
-                firstOperand = Double.parseDouble(ui.text.getText());
-                isOperationActivated = true;
-            }
+            setOperands(currentText);
 
             changeOperation(keyName);
         }
