@@ -51,13 +51,11 @@ public class CalculatorUI extends JFrame {
         // first row
         BorderLayout border = new BorderLayout();
         row1.setLayout(border);
-        row1.setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
-        text.setEnabled(false);
-        Font arial = new Font("Arial", Font.BOLD, 20);
-        text.setFont(arial);
+        text.setEditable(false);
+        text.setFont(new Font("Arial", Font.PLAIN, 20).deriveFont((float)25));
         text.setBackground(Color.darkGray);
         text.setForeground(Color.white);
-        text.setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
+        text.setBorder(BorderFactory.createRaisedBevelBorder());
         row1.add(text, BorderLayout.CENTER);
         add(row1);
 
