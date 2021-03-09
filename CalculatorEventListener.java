@@ -1,10 +1,10 @@
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class CalculatorEventListener implements ActionListener, KeyListener {
     private final CalculatorUI ui;
     private double firstOperand = 0, secondOperand = 0;
+    private boolean isSecondOperandEntered = false;
     private short operation = -1; // -1 - no operation, 0 - add, 1 - subtract, 2 - multiply, 3 - divide
     private short numCompletedOperands = 0;
     private boolean isOperationActivated = false;
@@ -29,6 +29,7 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
                 isOperationActivated = false;
                 revertRaisedBevelBorder(caller);
                 lastInput = caller;
+                isSecondOperandEntered = true;
                 return;
             }
 
@@ -42,11 +43,17 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             String newNumber = (currentText + caller).replaceAll("^0+", "0");
             ui.text.setText(newNumber);
         }
-        else if (caller.equals("Del") && currentText.length() != 0) {
+        // TODO: fix when operation is set
+        else if (caller.equals("Del") && !currentText.isEmpty()) {
             if (currentText.length() == 1) {
                 ui.text.setText(null);
-                numCompletedOperands = 0;
-                operation = -1;
+                if (numCompletedOperands == 1) {
+                    isOperationActivated = true;
+                }
+                else {
+                    operation = -1;
+                }
+                isSecondOperandEntered = false;
             }
             else {
                 ui.text.setText(currentText.substring(0, currentText.length() - 1));
@@ -56,6 +63,7 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             ui.text.setText(null);
             numCompletedOperands = 0;
             operation = -1;
+            isSecondOperandEntered = false;
         }
         else if (isOperation(caller)) {
             if (currentText == null || currentText.equals("")) {
@@ -83,35 +91,50 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             isOperationActivated = false;
             numCompletedOperands = 0;
         }
+        else if (caller.equals("x\u00B2")) {
+            if (numCompletedOperands == 0 && !ui.text.getText().isEmpty()) {
+                double result = secondPower(Double.parseDouble(ui.text.getText()));
+                ui.text.setText(String.format("%.10f", result).replaceAll("\\.0+$", ""));
+            }
+            else if (numCompletedOperands == 1 && !isSecondOperandEntered) {
+                firstOperand = secondPower(firstOperand);
+                ui.text.setText(String.format("%.10f", firstOperand).replaceAll("\\.0+$", ""));
+            }
+            else if (numCompletedOperands == 1 && isSecondOperandEntered) {
+                double result = secondPower(Double.parseDouble(ui.text.getText()));
+                ui.text.setText(String.format("%.10f", result).replaceAll("\\.0+$", ""));
+            }
+        }
+        else if (caller.equals("x\u00B3")) {
+            if (numCompletedOperands == 0 && !ui.text.getText().isEmpty()) {
+                double result = thirdPower(Double.parseDouble(ui.text.getText()));
+                ui.text.setText(String.format("%.10f", result).replaceAll("\\.0+$", ""));
+            }
+            else if (numCompletedOperands == 1 && !isSecondOperandEntered) {
+                firstOperand = thirdPower(firstOperand);
+                ui.text.setText(String.format("%.10f", firstOperand).replaceAll("\\.0+$", ""));
+            }
+            else if (numCompletedOperands == 1 && isSecondOperandEntered) {
+                double result = thirdPower(Double.parseDouble(ui.text.getText()));
+                ui.text.setText(String.format("%.10f", result).replaceAll("\\.0+$", ""));
+            }
+        }
 
         revertRaisedBevelBorder(caller);
 
         lastInput = caller;
     }
 
-    private void revertRaisedBevelBorder(String caller) {
-        if (lastInput == null || lastInput.equals(caller)) {
-            return;
-        }
-
-        switch (lastInput) {
-            case "+":
-                ui.sum.setBorder(BorderFactory.createRaisedBevelBorder());
-                break;
-            case "-":
-                ui.subtract.setBorder(BorderFactory.createRaisedBevelBorder());
-                break;
-            case "/":
-                ui.divide.setBorder(BorderFactory.createRaisedBevelBorder());
-                break;
-            case "*":
-                ui.multiply.setBorder(BorderFactory.createRaisedBevelBorder());
-                break;
-        }
+    private double secondPower(double x) {
+        return x * x;
     }
 
-    private void revertRaisedBevelBorder(Character caller) {
-        if (lastInput == null || lastInput.equals(Character.toString(caller))) {
+    private double thirdPower(double x) {
+        return secondPower(x) * x;
+    }
+
+    private void revertRaisedBevelBorder(String caller) {
+        if (lastInput == null || lastInput.equals(caller) || caller.equals("x\u00B2") || caller.equals("x\u00B3")) {
             return;
         }
 
@@ -222,30 +245,22 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
     private void setSource(Character source) {
         switch (source) {
             case '+':
-                ui.sum.setBorder(BorderFactory.createRaisedBevelBorder());
+                ui.sum.setBorder(BorderFactory.createEmptyBorder());
                 break;
             case '-':
-                ui.subtract.setBorder(BorderFactory.createRaisedBevelBorder());
+                ui.subtract.setBorder(BorderFactory.createEmptyBorder());
                 break;
             case '/':
-                ui.divide.setBorder(BorderFactory.createRaisedBevelBorder());
+                ui.divide.setBorder(BorderFactory.createEmptyBorder());
                 break;
             case '*':
-                ui.multiply.setBorder(BorderFactory.createRaisedBevelBorder());
+                ui.multiply.setBorder(BorderFactory.createEmptyBorder());
                 break;
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-    }
-
-    // TODO: fix button animation when pressed
-    // TODO: fix initial pressing of a key
-    @Override
-    public void keyPressed(KeyEvent e) {
-        AnimatedButton source = (AnimatedButton)e.getSource();
         char keyName = e.getKeyChar();
         String currentText = ui.text.getText();
 
@@ -256,14 +271,14 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             if (isOperationActivated) {
                 ui.text.setText(Character.toString(keyName));
                 isOperationActivated = false;
-                revertRaisedBevelBorder(keyName);
+                revertRaisedBevelBorder(Character.toString(keyName));
                 lastInput = Character.toString(keyName);
                 return;
             }
 
             if (keyName != '0' && currentText != null && currentText.equals("0")) {
                 ui.text.setText(Character.toString(keyName));
-                revertRaisedBevelBorder(keyName);
+                revertRaisedBevelBorder(Character.toString(keyName));
                 lastInput = Character.toString(keyName);
                 return;
             }
@@ -289,7 +304,7 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             if (lastInput != null && isOperation(lastInput)) {
                 changeOperation(keyName);
                 setSource(keyName);
-                revertRaisedBevelBorder(keyName);
+                revertRaisedBevelBorder(Character.toString(keyName));
                 lastInput = Character.toString(keyName);
                 return;
             }
@@ -308,8 +323,13 @@ public class CalculatorEventListener implements ActionListener, KeyListener {
             numCompletedOperands = 0;
         }
 
-        revertRaisedBevelBorder(keyName);
+        revertRaisedBevelBorder(Character.toString(keyName));
         lastInput = Character.toString(keyName);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
     }
 
     @Override
