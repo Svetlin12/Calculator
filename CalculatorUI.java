@@ -35,8 +35,8 @@ public class CalculatorUI extends JFrame {
     AnimatedButton nine = new AnimatedButton("9", digitsBackgroundColor, digitsForegroundColor);
     AnimatedButton zero = new AnimatedButton("0", digitsBackgroundColor, digitsForegroundColor);
     AnimatedButton decimalPoint = new AnimatedButton(".", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton toSecondPower = new AnimatedButton("x2", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton toThirdPower = new AnimatedButton("x3", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton toSecondPower = new AnimatedButton("x\u00B2", operationsBackgroundColor, operationsForegroundColor);
+    AnimatedButton toThirdPower = new AnimatedButton("x\u00B3", operationsBackgroundColor, operationsForegroundColor);
     AnimatedButton clear = new AnimatedButton("AC", operationsBackgroundColor, operationsForegroundColor);
     AnimatedButton delete = new AnimatedButton("Del", operationsBackgroundColor, operationsForegroundColor);
 
@@ -58,6 +58,7 @@ public class CalculatorUI extends JFrame {
         text.setBorder(BorderFactory.createRaisedBevelBorder());
         row1.add(text, BorderLayout.CENTER);
         add(row1);
+        text.addKeyListener(listener); // the buttons down below don't get the initial focus and so the key listener won't react on input (this component gets the initial focus)
 
         // second row
         BorderLayout buttonsBorder = new BorderLayout();
@@ -105,7 +106,7 @@ public class CalculatorUI extends JFrame {
         setVisible(true);
     }
 
-    private void setButton(JButton button, JPanel panel) {
+    private void setButton(AnimatedButton button, JPanel panel) {
         button.addActionListener(listener);
         button.addKeyListener(listener);
         panel.add(button);
