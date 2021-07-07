@@ -6,14 +6,14 @@ public class AnimatedButton extends JButton {
     private final Color pressedBackgroundColor;
 
     public AnimatedButton(String text, Color background, Color foreground) {
-        super(text);
+        super(text); // build the button with initial text
         super.setContentAreaFilled(false);
-        this.hoverBackgroundColor = background.brighter();
-        this.pressedBackgroundColor = background;
+        this.hoverBackgroundColor = background.brighter(); // hover behaviour - make the button a bit brighter
+        this.pressedBackgroundColor = background.darker(); // pressed behaviour - make the button a bit darker
         this.setBackground(background);
-        this.setForeground(foreground);
+        this.setForeground(foreground); 
         this.setBorder(BorderFactory.createRaisedBevelBorder());
-        this.setHorizontalTextPosition(SwingConstants.CENTER);
+        this.setHorizontalTextPosition(SwingConstants.CENTER); // center the text
         this.setFocusPainted(false);
     }
 

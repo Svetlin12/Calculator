@@ -2,45 +2,61 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CalculatorUI extends JFrame {
-    CalculatorEventListener listener = new CalculatorEventListener(this);
+    static CalculatorUI instance = null; // in this variable we shall store the only instance this class can create (Singleton)
+
+    private final CalculatorEventListener listener = new CalculatorEventListener(this); // reacts to button presses
 
     // colors for the buttons
-    Color digitsBackgroundColor = Color.darkGray;
-    Color operationsBackgroundColor = new Color(247, 219, 74);
-    Color digitsForegroundColor = Color.white;
-    Color operationsForegroundColor = Color.black;
+    private final Color digitsBackgroundColor = Color.darkGray;
+    private final Color operationsBackgroundColor = new Color(247, 219, 74);
+    private final Color digitsForegroundColor = Color.white; // the color of the text inside the digits buttons
+    private final Color operationsForegroundColor = Color.black; // the color of the text inside the operations buttons ('+', '-', '/', '*', '=' and so on)
 
     // row where the numbers will show up
-    JPanel row1 = new JPanel();
-    JTextField text = new JTextField(null);
+    private final JPanel row1 = new JPanel(); // panel for the UI of the Calculator
+    private final JTextField text = new JTextField("0"); // default to displaying 0
 
-    // buttons for the calculator are going to be located
-    JPanel buttonRow = new JPanel();
-    JPanel digitsPanel = new JPanel();
-    JPanel mainFunctions = new JPanel();
-    JPanel otherFunctions = new JPanel();
-    AnimatedButton sum = new AnimatedButton("+", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton subtract = new AnimatedButton("-", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton divide = new AnimatedButton("/", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton multiply = new AnimatedButton("*", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton equals = new AnimatedButton("=", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton one = new AnimatedButton("1", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton two = new AnimatedButton("2", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton three = new AnimatedButton("3", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton four = new AnimatedButton("4", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton five = new AnimatedButton("5", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton six = new AnimatedButton("6", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton seven = new AnimatedButton("7", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton eight = new AnimatedButton("8", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton nine = new AnimatedButton("9", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton zero = new AnimatedButton("0", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton decimalPoint = new AnimatedButton(".", digitsBackgroundColor, digitsForegroundColor);
-    AnimatedButton toSecondPower = new AnimatedButton("x\u00B2", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton toThirdPower = new AnimatedButton("x\u00B3", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton clear = new AnimatedButton("AC", operationsBackgroundColor, operationsForegroundColor);
-    AnimatedButton delete = new AnimatedButton("Del", operationsBackgroundColor, operationsForegroundColor);
+    /* create the panels which will hold the buttons of the calculator */
+    private final JPanel buttonRow = new JPanel(); // panel for all the buttons
+    private final JPanel digitsPanel = new JPanel(); // panel for the digit buttons
+    private final JPanel mainFunctions = new JPanel(); // panel for operations such as +, -, /, * and so on
+    private final JPanel otherFunctions = new JPanel(); // panel for operations such as AC, DEL and so on
 
-    public CalculatorUI() {
+    /* create the buttons of the calculator */
+    private final AnimatedButton sum = createButton("+", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton subtract = createButton("-", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton divide = createButton("/", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton multiply = createButton("*", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton equals = createButton("=", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton one = createButton("1", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton two = createButton("2", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton three = createButton("3", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton four = createButton("4", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton five = createButton("5", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton six = createButton("6", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton seven = createButton("7", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton eight = createButton("8", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton nine = createButton("9", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton zero = createButton("0", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton decimalPoint = createButton(".", digitsBackgroundColor, digitsForegroundColor);
+    private final AnimatedButton toSecondPower = createButton("x\u00B2", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton toThirdPower = createButton("x\u00B3", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton clear = createButton("AC", operationsBackgroundColor, operationsForegroundColor);
+    private final AnimatedButton delete = createButton("DEL", operationsBackgroundColor, operationsForegroundColor);
+
+    private static AnimatedButton createButton(String text, Color backgroundColor, Color foregroundColor) {
+        return new AnimatedButton(text, backgroundColor, foregroundColor);
+    }
+
+    // Singleton instance
+    public static CalculatorUI getInstance() {
+        if (instance == null) {
+            instance = new CalculatorUI();
+        }
+        return instance;
+    }
+
+    private CalculatorUI() {
         super("Calculator");
         setSize(500, 400);
         GridLayout grid = new GridLayout(2, 1);
@@ -104,8 +120,114 @@ public class CalculatorUI extends JFrame {
         add(buttonRow);
 
         setVisible(true);
+        setLookAndFeel();
     }
 
+    // getter for the text field of the calculator (the place where the numbers will be displayed)
+    public JTextField getTextField() {
+        return this.text;
+    }
+
+    // getters to buttons - they provide read access to the buttons
+    public AnimatedButton getSumButton() {
+        return this.sum;
+    }
+
+    public AnimatedButton getSubtractButton() {
+        return this.subtract;
+    }
+
+    public AnimatedButton getDivideButton() {
+        return this.divide;
+    }
+
+    public AnimatedButton getMultiplyButton() {
+        return this.multiply;
+    }
+
+    public AnimatedButton getEqualsButton() {
+        return this.equals;
+    }
+
+    public AnimatedButton getOneButton() {
+        return this.one;
+    }
+
+    public AnimatedButton getTwoButton() {
+        return this.two;
+    }
+
+    public AnimatedButton getThreeButton() {
+        return this.three;
+    }
+
+    public AnimatedButton getFourButton() {
+        return this.four;
+    }
+
+    public AnimatedButton getFiveButton() {
+        return this.five;
+    }
+
+    public AnimatedButton getSixButton() {
+        return this.six;
+    }
+
+    public AnimatedButton getSevenButton() {
+        return this.seven;
+    }
+
+    public AnimatedButton getEightButton() {
+        return this.eight;
+    }
+
+    public AnimatedButton getNineButton() {
+        return this.nine;
+    }
+
+    public AnimatedButton getZeroButton() {
+        return this.zero;
+    }
+
+    public AnimatedButton getDecimalPointButton() {
+        return this.decimalPoint;
+    }
+
+    public AnimatedButton getToSecondPowerButton() {
+        return this.toSecondPower;
+    }
+
+    public AnimatedButton getToThirdPowerButton() {
+        return this.toThirdPower;
+    }
+
+    public AnimatedButton getClearButton() {
+        return this.clear;
+    }
+
+    public AnimatedButton getDeleteButton() {
+        return this.delete;
+    }
+
+    public AnimatedButton getOperationButton(Character value) {
+        if (value == '*') {
+            return multiply;
+        }
+        else if (value == '/') {
+            return divide;
+        }
+        else if (value == '+') {
+            return sum;
+        }
+        else if (value == '-') {
+            return subtract;
+        }
+        else {
+            return null;
+        }
+    }
+
+    // add listeners for clicks and key presses and attach button to the panel
     private void setButton(AnimatedButton button, JPanel panel) {
         button.addActionListener(listener);
         button.addKeyListener(listener);
@@ -117,10 +239,5 @@ public class CalculatorUI extends JFrame {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (Exception ignored) {
         }
-    }
-
-    public static void main(String[] args) {
-        CalculatorUI.setLookAndFeel();
-        new CalculatorUI();
     }
 }
