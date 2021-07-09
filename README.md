@@ -7,12 +7,12 @@ Calculator written in Java which supports only some basic operations ***(+, -, /
 * [General Information](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-* [Usage](#usage-(with-screenshots))
+* [Usage](#usage)
 * [Author](#author)
 
 ## General information
 
-This project was created mainly for practice in Java. It realises a calculator which supports only the above mentioned operations. The UI was made as modern as possible with hover effects, onclick button borders change and etc. More information on how the calculator can be used, you can find in the section [Usage (with Screenshots)](#usage-(with-screenshots)) I should note that the calculator supports only numbers which integer part have no more than 25 digits and fraction part with no more than 10 digits. This was made purely because the number would overflow the text field of the calculator.
+This project was created mainly for practice in Java. It realises a calculator which supports only the above mentioned operations. The UI was made as modern as possible with hover effects, onclick button borders change and etc. More information on how the calculator can be used, you can find in the section [Usage](#usage) I should note that the calculator supports only numbers which integer part have no more than 25 digits and fraction part with no more than 10 digits. This was made purely because the number would overflow the text field of the calculator.
 
 ## Technologies Used
 
@@ -33,7 +33,7 @@ This project was created mainly for practice in Java. It realises a calculator w
 * Clear everything
 * Delete one digit
 
-## Usage (with screenshots)
+## Usage
 
 * The calculator's UI looks like this:
 
