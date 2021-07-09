@@ -18,6 +18,7 @@ This project was created mainly for practice in Java. It realises a calculator w
 
 * Java
 * Visual Studio Code
+* Intellij IDEA Community Edition
 * Swing
 
 ## Features
