@@ -58,12 +58,38 @@ Notice how the ***"+"*** button's border is different from the rest. This indica
 ![calculator second input snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-3.PNG)
 
 * Let's evaluate the expression we just entered. You can do so in two ways:
-  * Press the UI button ***"="*** in the calculator
+  * Press the UI button ***"="*** on the calculator
   * Press ***"="*** keyboard button or ***Enter***
  
 As a result, we get:
 
 ![calculator result snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-4.PNG)
+
+* Let's enter the number ***123*** now. Again, you can do it in the above mentioned ways.
+
+![calculator third input snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-5.PNG)
+
+* Now let's delete the last digit we entered (which is ***3***). You have two ways of doing it:
+  * Press the UI button ***"DEL"*** on the calculator
+  * Press the keyboard backslash button
+
+As a result, we get:
+
+![calculator deleteion snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-6.PNG)
+
+* Let's now delete everything we entered (the number **12** from the last point). You can do this only by clicking the UI button ***"AC"*** on the calculator:
+
+![calculator ac action snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-7.PNG)
+
+Notice that when clearing, the default number (which is ***0***) is shown on the text field of the calculator.
+
+* Let's enter the number ***4***:
+
+![calculator fourth input snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-8.PNG)
+
+* For the final example, let's raise it to the power of 2 (the same applies for raising a number to the power of 3). You can do this only by clicking the UI button labeled ***"x<sup>2</sup>"*** on the calculator.
+
+![calculator raising snip](https://github.com/Svetlin12/Calculator/blob/main/screenshots/calculator-snip-9.PNG)
 
 ## Author
 
